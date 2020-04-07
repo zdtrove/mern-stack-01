@@ -2,8 +2,13 @@ import React from 'react';
 import AuthContext from '../../context/AuthContext/AuthContext';
 import { Link } from 'react-router-dom';
 
-const Register = () => {
-    const {registerUser, userAuth, errors} = React.useContext(AuthContext);
+const Register = (props) => {
+    const {registerUser, userAuth, errors, setError, clearError} = React.useContext(AuthContext);
+    React.useEffect(() => {
+        if (userAuth) {
+            props.history.push('/');
+        }
+    }, [userAuth, props.history]);
     const [user, setUser] = React.useState({
         name: '',
         email: '',
@@ -16,13 +21,15 @@ const Register = () => {
             ...user,
             [evt.target.name]: evt.target.value
         });
+        clearError();
     }
     const onSubmit = evt => {
         evt.preventDefault();
         if (password !== passwordConfirm) {
-            console.log('not match')
+            setError({msg: "Passwords don't match"});
         } else {
             registerUser({name, email, password});
+            clearError();
         }
     }
     return (
@@ -40,7 +47,7 @@ const Register = () => {
                     {errors !== null && 
                         <button className="danger">
                             {errors.msg ? errors.msg : errors.errors[0].msg}
-                            <span>X</span>
+                            <span onClick={() => clearError()}>X</span>
                         </button>
                     }
                     <p>Already have an accout? {" "} <Link to='/login'>Sign In </Link></p>

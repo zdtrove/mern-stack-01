@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import AuthContext from '../../context/AuthContext/AuthContext';
 import GuestForm from '../guests/GuestForm'
 import GuestCounter from '../guests/GuestCounter'
 import GuestFilter from '../guests/GuestFilter'
@@ -6,6 +7,10 @@ import GuestSearch from '../guests/GuestSearch'
 import Guests from '../guests/Guests'
 
 const Home = () => {
+    const {getUser} = React.useContext(AuthContext);
+    React.useEffect(() => {
+        getUser();
+    }, [getUser]);
     return (
         <div className="app-container">
             <div className="main">

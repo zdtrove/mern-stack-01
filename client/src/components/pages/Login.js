@@ -2,8 +2,13 @@ import React from 'react';
 import AuthContext from '../../context/AuthContext/AuthContext';
 import {Link} from 'react-router-dom';
 
-const Login = () => {
-    const {loginUser, userAuth, errors} = React.useContext(AuthContext);
+const Login = (props) => {
+    const {loginUser, userAuth, errors, clearError} = React.useContext(AuthContext);
+    React.useEffect(() => {
+        if (userAuth) {
+            props.history.push('/');
+        }
+    }, [userAuth, props.history]);
     const [user, setUser] = React.useState({
         email: '',
         password: ''
@@ -14,10 +19,12 @@ const Login = () => {
             ...user,
             [evt.target.name]: evt.target.value
         });
+        clearError()
     }
     const onSubmit = evt => {
         evt.preventDefault();
         loginUser({email, password});
+        clearError();
     }
     return (
         <div className="login">
@@ -31,7 +38,7 @@ const Login = () => {
                 {errors !== null && 
                     <button className="danger">
                         {errors.msg ? errors.msg : errors.errors[0].msg}
-                        <span>X</span>
+                        <span onClick={() => clearError()}>X</span>
                     </button>
                 }
                 <p>Dont' have an accout? {" "} <Link to='/register'>Sign Up</Link></p>

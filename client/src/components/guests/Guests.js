@@ -3,7 +3,10 @@ import Guest from './Guest'
 import GuestContext from '../../context/GuestContext/GuestContext';
 
 const Guests = () => {
-	const {guests, filterGuest, search} = React.useContext(GuestContext);
+	const {guests, filterGuest, search, getGuests} = React.useContext(GuestContext);
+	React.useEffect(() => {
+		getGuests();
+	}, [getGuests]);
   	return (
     	<div className="guests">
       		{search !== null 

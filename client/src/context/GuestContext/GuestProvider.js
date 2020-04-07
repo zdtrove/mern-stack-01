@@ -1,4 +1,5 @@
 import React, {useReducer} from 'react';
+import axios from 'axios';
 import GuestContext from './GuestContext';
 import GuestReducer from './GuestReducer';
 import {
@@ -9,7 +10,9 @@ import {
 	REMOVE_GUEST,
 	UPDATE_GUEST,
 	EDIT_GUEST,
-	CLEAR_EDIT
+	CLEAR_EDIT,
+	GET_GUESTS,
+	GUESTS_ERROR
 } from '../types';
 
 const GuestProvider = props => {
@@ -17,31 +20,25 @@ const GuestProvider = props => {
 		filterGuest: false,
 		search: null,
 		editAble: null,
-		guests: [
-			{
-				id: 1,
-				name: 'Jake Smith',
-				phone: '333 444 9999',
-				dietary: 'Vegan',
-				isconfirmed: false
-			},
-			{
-				id: 2,
-				name: 'Merry Williams',
-				phone: '222 888 8888',
-				dietary: 'Non-Veg',
-				isconfirmed: true
-			},
-			{
-				id: 3,
-				name: 'Azhaan Idress',
-				phone: '333 666 4444',
-				dietary: 'Pascatarian',
-				isconfirmed: false
-			}
-		]
+		guests: [],
+		errors: null
 	}
 	const [state, dispatch] = useReducer(GuestReducer, initialState);
+	// get guests
+	const getGuests = async () => {
+		const res = await axios.get('/guests');
+		try {
+			dispatch({
+				type: GET_GUESTS,
+				payload: res.data
+			});
+		} catch (err) {
+			dispatch({
+				type: GUESTS_ERROR,
+				payload: err.response.msg
+			})
+		}
+	}
 	// Add Guest
 	const addGuest = guest => {
 		guest.id = Date.now();
@@ -99,6 +96,7 @@ const GuestProvider = props => {
 			filterGuest: state.filterGuest,
 			search: state.search,
 			editAble: state.editAble,
+			getGuests,
 			addGuest,
 			removeGuest,
 			updateGuest,
