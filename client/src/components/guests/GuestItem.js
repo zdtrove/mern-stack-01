@@ -1,20 +1,17 @@
 import React from 'react';
-import GuestContext from '../../context/GuestContext/GuestContext';
+import {GuestContext} from '../../context/Guest/GuestProvider';
 
 const Guest = ({guest}) => {
-    const {removeGuest, updateGuest, editGuest} = React.useContext(GuestContext);
-    const {id, name, dietary, phone, isconfirmed} = guest;
+    const {removeGuest, updateGuest, editGuest, clearEdit} = React.useContext(GuestContext);
+    const {_id, name, dietary, phone, isconfirmed} = guest;
 
     const handleRemove = () => {
-        removeGuest(id);
+        removeGuest(_id);
+        clearEdit();
     }
 
     const handleIsconfirmed = () => {
         updateGuest({...guest, isconfirmed: !isconfirmed});
-    }
-
-    const handleEdit = () => {
-        editGuest(guest);
     }
 
     return (
@@ -28,8 +25,8 @@ const Guest = ({guest}) => {
                     </label>
                 </div>
                 <div>
-                    <button onClick={handleEdit}>
-                        <i className="fas fa-user-edit"></i>
+                    <button title="Edit Guest">
+                        <i className="fas fa-user-edit" onClick={() => editGuest(guest)}></i>
                     </button>
                     <button onClick={handleRemove}>
                         <i className="fas fa-trash-alt remove"></i>

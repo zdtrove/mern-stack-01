@@ -8,7 +8,8 @@ import {
 	EDIT_GUEST,
 	CLEAR_EDIT,
 	GET_GUESTS,
-	GUESTS_ERROR
+	GUESTS_ERROR,
+	CLEAR_GUESTS
 } from '../types';
 
 export default (state, {type, payload}) => {
@@ -16,7 +17,8 @@ export default (state, {type, payload}) => {
 		case GET_GUESTS:
 			return {
 				...state,
-				guests: payload
+				guests: payload,
+				errors: null
 			}
 		case ADD_GUEST:
 			return {
@@ -26,12 +28,7 @@ export default (state, {type, payload}) => {
 		case REMOVE_GUEST:
 			return {
 				...state,
-				guests: state.guests.filter(guest => guest.id !== payload)
-			}
-		case UPDATE_GUEST:
-			return {
-				...state,
-				guests: state.guests.map(guest => guest.id === payload.id ? payload : guest)
+				guests: state.guests.filter(guest => guest._id !== payload)
 			}
 		case EDIT_GUEST:
 			return {
@@ -43,27 +40,40 @@ export default (state, {type, payload}) => {
 				...state,
 				editAble: null
 			}
-		case SEARCH_GUEST:
-			const reg = new RegExp(`${payload}`, 'gi');
+		case UPDATE_GUEST:
 			return {
 				...state,
-				search: state.guests.filter(guest => guest.name.match(reg))
-			}
-		case GUESTS_ERROR:
-			return {
-				...state,
-				guests: [],
-				errors: payload
-			}
-		case CLEAR_SEARCH:
-			return {
-				...state,
-				search: null
+				guests: state.guests.map(guest => guest._id === payload._id ? payload : guest)
 			}
 		case TOGGLE_FILTER:
 			return {
 				...state,
 				filterGuest: !state.filterGuest
+			}
+		case SEARCH_GUEST:
+			const reg = new RegExp(`${payload}`, 'gi');
+			return {
+				...state,
+				searchResult: state.guests.filter(guest => guest.name.match(reg))
+			}
+		case CLEAR_SEARCH:
+			return {
+				...state,
+				searchResult: null
+			}
+		case GUESTS_ERROR:
+			return {
+				...state,
+				errors: payload
+			}
+		case CLEAR_GUESTS:
+			return {
+				...state,
+				filterGuest: false,
+				searchResult: null,
+				editAble: null,
+				guests: [],
+				errors: null
 			}
 		default:
 			return state;

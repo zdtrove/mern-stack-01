@@ -1,5 +1,5 @@
 import React from 'react';
-import GuestContext from '../../context/GuestContext/GuestContext';
+import {GuestContext} from '../../context/Guest/GuestProvider';
 
 const GuestSearch = () => {
 	const {searchGuest, clearSearch} = React.useContext(GuestContext);

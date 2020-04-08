@@ -1,16 +1,17 @@
 import React from 'react';
-import AuthContext from '../../context/AuthContext/AuthContext';
+import {AuthContext} from '../../context/Auth/AuthProvider';
 import GuestForm from '../guests/GuestForm'
 import GuestCounter from '../guests/GuestCounter'
 import GuestFilter from '../guests/GuestFilter'
 import GuestSearch from '../guests/GuestSearch'
-import Guests from '../guests/Guests'
+import Guests from '../guests/GuestList'
 
 const Home = () => {
-    const {getUser} = React.useContext(AuthContext);
+    const {loadUser} = React.useContext(AuthContext);
     React.useEffect(() => {
-        getUser();
-    }, [getUser]);
+        loadUser();
+        // eslint-disable-next-line
+    }, []);
     return (
         <div className="app-container">
             <div className="main">

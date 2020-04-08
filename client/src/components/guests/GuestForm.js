@@ -1,5 +1,5 @@
 import React from 'react';
-import GuestContext from '../../context/GuestContext/GuestContext';
+import {GuestContext} from '../../context/Guest/GuestProvider';
 
 const GuestForm = () => {
     const {addGuest, editAble, updateGuest, clearEdit} = React.useContext(GuestContext);
@@ -28,17 +28,17 @@ const GuestForm = () => {
     }
     const onSubmit = event => {
         event.preventDefault();
-        if (editAble !== null) {
+        if (editAble === null) {
+            addGuest(guest);
+        } else {
             updateGuest(guest);
             clearEdit();
-        } else {
-            addGuest(guest);
-            setGuest({
-                name: '',
-                phone: '',
-                dietary: 'Non-Veg'
-            });
         }
+        setGuest({
+            name: '',
+            phone: '',
+            dietary: 'Non-Veg'
+        });
     }
 
     return (

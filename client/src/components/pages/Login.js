@@ -1,14 +1,18 @@
 import React from 'react';
-import AuthContext from '../../context/AuthContext/AuthContext';
+import {AuthContext} from '../../context/Auth/AuthProvider';
 import {Link} from 'react-router-dom';
 
 const Login = (props) => {
-    const {loginUser, userAuth, errors, clearError} = React.useContext(AuthContext);
+    const {loginUser, isAuthencated, errors, clearError} = React.useContext(AuthContext);
     React.useEffect(() => {
-        if (userAuth) {
+        if (isAuthencated || localStorage.token) {
             props.history.push('/');
+            clearError();
+        } else {
+            clearError();
         }
-    }, [userAuth, props.history]);
+        // eslint-disable-next-line
+    }, [isAuthencated, props.history]);
     const [user, setUser] = React.useState({
         email: '',
         password: ''
@@ -19,7 +23,9 @@ const Login = (props) => {
             ...user,
             [evt.target.name]: evt.target.value
         });
-        clearError()
+        if (errors !== null) { 
+            clearError();
+        }
     }
     const onSubmit = evt => {
         evt.preventDefault();

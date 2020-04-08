@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
-import AuthContext from '../../context/AuthContext/AuthContext';
+import {AuthContext} from '../../context/Auth/AuthProvider';
 import {Link} from 'react-router-dom';
 
 const Navbar = () => {
-    const {userAuth, logout, clearError, user} = React.useContext(AuthContext);
+    const {isAuthencated, logout, clearError, user} = React.useContext(AuthContext);
     const onLogout = () => {
         logout();
         clearError();
@@ -13,7 +13,7 @@ const Navbar = () => {
             <li>Hello, {user && user.name}</li>
             <span className="sm-hide">|</span>
             <li>
-                <a href="#!" onClick={onLogout}>
+                <a href="/" onClick={onLogout}>
                     <span className="sm-hide">Logout</span>
                     <i className="fas fa-sign-out-alt"></i>
                 </a>
@@ -40,7 +40,7 @@ const Navbar = () => {
                 <p>Made with <span>❤</span> by Mu Idrees</p>
             </div>
             <ul>
-                {userAuth ? userLinks : authLinks}
+                {isAuthencated ? userLinks : authLinks}
             </ul>
         </div>
     )

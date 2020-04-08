@@ -3,15 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import GuestProvider from './context/GuestContext/GuestProvider';
-import AuthProvider from './context/AuthContext/AuthProvider';
 
 ReactDOM.render(
- 	<AuthProvider>
-        <GuestProvider>
-    		<App />
-  		</GuestProvider>
-    </AuthProvider>,
+ 	<App />,
   	document.getElementById('root')
 );
 

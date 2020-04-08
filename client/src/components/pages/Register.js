@@ -1,14 +1,14 @@
 import React from 'react';
-import AuthContext from '../../context/AuthContext/AuthContext';
+import {AuthContext} from '../../context/Auth/AuthProvider';
 import { Link } from 'react-router-dom';
 
 const Register = (props) => {
-    const {registerUser, userAuth, errors, setError, clearError} = React.useContext(AuthContext);
+    const {registerUser, isAuthencated, errors, setError, clearError} = React.useContext(AuthContext);
     React.useEffect(() => {
-        if (userAuth) {
+        if (isAuthencated || localStorage.token) {
             props.history.push('/');
         }
-    }, [userAuth, props.history]);
+    }, [isAuthencated, props.history]);
     const [user, setUser] = React.useState({
         name: '',
         email: '',

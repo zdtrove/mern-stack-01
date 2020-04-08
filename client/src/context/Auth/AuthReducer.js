@@ -1,45 +1,45 @@
 import {
-    SUCCESS_REGISTER,
-    SUCCESS_LOGIN,
-    FAIL_REGISTER,
-    FAIL_LOGIN,
-    SET_ERROR,
+    REGISTER_SUCCESS,
+    LOGIN_SUCCESS,
+    REGISTER_FAIL,
+    LOGIN_FAIL,
     CLEAR_ERROR,
-    LOG_OUT,
-    SET_USER,
+    LOGOUT,
+    LOAD_USER,
     AUTH_ERROR
 } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
-        case SET_USER:
+        case LOAD_USER:
             return {
                 ...state,
+                isAuthencated: true,
                 user: action.payload,
-                userAuth: true,
+                loading: false,
                 errors: null
             }
-        case SUCCESS_REGISTER:
-        case SUCCESS_LOGIN:
+        case REGISTER_SUCCESS:
+        case LOGIN_SUCCESS:
             localStorage.setItem('token', action.payload.token);
             return {
                 ...state,
-                userAuth: true,
+                ...action.payload,
+                isAuthencated: true,
+                loading: null,
                 errors: null
             }
-        case FAIL_LOGIN:
-        case FAIL_REGISTER:
-        case LOG_OUT:
+        case LOGIN_FAIL:
+        case REGISTER_FAIL:
+        case LOGOUT:
         case AUTH_ERROR:
             localStorage.removeItem('token');
             return {
                 ...state,
-                userAuth: null,
-                errors: action.payload
-            }
-        case SET_ERROR:
-            return {
-                ...state,
+                token: null,
+                isAuthencated: null,
+                user: null,
+                loading: false,
                 errors: action.payload
             }
         case CLEAR_ERROR:
