@@ -2,18 +2,20 @@ import React from 'react';
 import {GuestContext} from '../../context/Guest/GuestProvider';
 
 const GuestForm = () => {
-    const {addGuest, editAble, updateGuest, clearEdit, errors, clearErrorGuest} = React.useContext(GuestContext);
+    const {addGuest, editAble, updateGuest, clearEdit, errors, clearErrorGuest, addSuccess} = React.useContext(GuestContext);
     React.useEffect(() => {
         if (editAble !== null) {
-            setGuest(editAble);
+            setGuest(editAble)
         } else {
-            setGuest({
-                name: '',
-                phone: '',
-                dietary: 'Non-Veg'
-            });
+            if (addSuccess || editAble === null) {
+                setGuest({
+                    name: '',
+                    phone: '',
+                    dietary: 'Non-Veg'
+                });
+            }
         }
-    }, [editAble]);
+    }, [editAble, addSuccess]);
     const [guest, setGuest] = React.useState({
         name: '',
         phone: '',
@@ -26,7 +28,7 @@ const GuestForm = () => {
             [event.target.name]: event.target.value
         });
     }
-    const onSubmit = event => {
+    const onSubmit =  event => {
         event.preventDefault();
         if (editAble === null) {
             addGuest(guest);
@@ -36,7 +38,6 @@ const GuestForm = () => {
             clearEdit();
         }
     }
-    
     return (
         <div className="invite-section">
             <h1>{editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>

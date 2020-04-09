@@ -25,7 +25,8 @@ const GuestProvider = props => {
 		searchResult: null,
 		editAble: null,
 		guests: [],
-		errors: null
+		errors: null,
+		addSuccess: false
 	}
 	const [state, dispatch] = useReducer(GuestReducer, initialState);
 	const config = {
@@ -138,6 +139,7 @@ const GuestProvider = props => {
 	
 	return (
 		<GuestContext.Provider value={{
+			addSuccess: state.addSuccess,
 			guests: state.guests,
 			filterGuest: state.filterGuest,
 			searchResult: state.searchResult,

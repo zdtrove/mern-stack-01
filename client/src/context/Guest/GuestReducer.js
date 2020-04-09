@@ -24,6 +24,7 @@ export default (state, {type, payload}) => {
 		case ADD_GUEST:
 			return {
 				...state,
+				addSuccess: true,
 				guests: [...state.guests, payload]
 			}
 		case REMOVE_GUEST:
@@ -65,6 +66,7 @@ export default (state, {type, payload}) => {
 		case GUESTS_ERROR:
 			return {
 				...state,
+				addSuccess: false,
 				errors: payload
 			}
 		case CLEAR_GUESTS:
