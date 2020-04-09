@@ -9,7 +9,8 @@ import {
 	CLEAR_EDIT,
 	GET_GUESTS,
 	GUESTS_ERROR,
-	CLEAR_GUESTS
+	CLEAR_GUESTS,
+	CLEAR_ERROR_GUEST
 } from '../types';
 
 export default (state, {type, payload}) => {
@@ -73,6 +74,11 @@ export default (state, {type, payload}) => {
 				searchResult: null,
 				editAble: null,
 				guests: [],
+				errors: null
+			}
+		case CLEAR_ERROR_GUEST:
+			return {
+				...state,
 				errors: null
 			}
 		default:

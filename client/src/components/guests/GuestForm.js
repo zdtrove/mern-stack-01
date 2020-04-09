@@ -2,7 +2,7 @@ import React from 'react';
 import {GuestContext} from '../../context/Guest/GuestProvider';
 
 const GuestForm = () => {
-    const {addGuest, editAble, updateGuest, clearEdit} = React.useContext(GuestContext);
+    const {addGuest, editAble, updateGuest, clearEdit, errors, clearErrorGuest} = React.useContext(GuestContext);
     React.useEffect(() => {
         if (editAble !== null) {
             setGuest(editAble);
@@ -30,17 +30,13 @@ const GuestForm = () => {
         event.preventDefault();
         if (editAble === null) {
             addGuest(guest);
+            clearErrorGuest();
         } else {
             updateGuest(guest);
             clearEdit();
         }
-        setGuest({
-            name: '',
-            phone: '',
-            dietary: 'Non-Veg'
-        });
     }
-
+    
     return (
         <div className="invite-section">
             <h1>{editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>
@@ -66,6 +62,14 @@ const GuestForm = () => {
                             checked={dietary === 'Pascatarian'} onChange={handleChange} />
                         <span className="checkmark"></span>
                     </label>
+                </div>
+                <div className="question">
+                    {errors !== null && 
+                        <button className="danger">
+                            {errors[0].msg}
+                            <span onClick={() => clearErrorGuest()}>X</span>
+                        </button>
+                    }
                 </div>
                 <input type="submit" value={editAble !== null ? 'Update Guest' : 'Add Guest'} className="btn" />
                 {editAble !== null ? <input onClick={clearEdit} value="Cancel" type="button" className="btn clear" /> : null}

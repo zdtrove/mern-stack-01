@@ -13,7 +13,8 @@ import {
 	CLEAR_EDIT,
 	GET_GUESTS,
 	GUESTS_ERROR,
-	CLEAR_GUESTS
+	CLEAR_GUESTS,
+	CLEAR_ERROR_GUEST
 } from '../types';
 
 const GuestContext = React.createContext();
@@ -59,7 +60,7 @@ const GuestProvider = props => {
 		} catch (err) {
 			dispatch({
 				type: GUESTS_ERROR,
-				payload: err.response.msg
+				payload: err.response.data.errors
 			});
 		}
 		
@@ -128,6 +129,12 @@ const GuestProvider = props => {
 			type: CLEAR_GUESTS
 		});
 	}
+
+	const clearErrorGuest = () => {
+		dispatch({
+			type: CLEAR_ERROR_GUEST
+		});
+	}
 	
 	return (
 		<GuestContext.Provider value={{
@@ -145,7 +152,8 @@ const GuestProvider = props => {
 			toggleFilter,
 			searchGuest,
 			clearSearch,
-			clearGuests
+			clearGuests,
+			clearErrorGuest
 		}}>
 			{props.children}
 		</GuestContext.Provider>

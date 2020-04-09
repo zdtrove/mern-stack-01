@@ -46,7 +46,7 @@ const Register = (props) => {
                 <div className="question">
                     {errors !== null && 
                         <button className="danger">
-                            {errors.msg ? errors.msg : errors.errors[0].msg}
+                            {errors.msg ? errors.msg : errors[0].msg}
                             <span onClick={() => clearError()}>X</span>
                         </button>
                     }

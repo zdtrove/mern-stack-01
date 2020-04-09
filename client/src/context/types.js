@@ -10,6 +10,7 @@ export const CLEAR_EDIT = 'CLEAR_EDIT';
 export const GET_GUESTS = 'GET_GUESTS';
 export const GUESTS_ERROR = 'GUESTS_ERROR';
 export const CLEAR_GUESTS = 'CLEAR_GUESTS';
+export const CLEAR_ERROR_GUEST = 'CLEAR_ERROR_GUEST';
 // Auth
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

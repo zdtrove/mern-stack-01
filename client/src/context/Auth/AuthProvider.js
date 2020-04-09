@@ -72,7 +72,7 @@ const AuthProvider = props => {
         } catch (err) {
             dispatch({
                 type: LOGIN_FAIL,
-                payload: err.response.data.msg
+                payload: err.response.data.errors
             });
         }
     }
@@ -80,7 +80,7 @@ const AuthProvider = props => {
     const setError = err => {
         dispatch({
             type: REGISTER_FAIL,
-            payload: [{msg: err}]
+            payload: err
         });
     }
 
