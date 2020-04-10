@@ -32,6 +32,7 @@ const Register = (props) => {
             clearError();
         }
     }
+    console.log(errors);
     return (
         <div>
             <div className="register">

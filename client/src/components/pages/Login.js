@@ -32,6 +32,7 @@ const Login = (props) => {
         loginUser({email, password});
         clearError();
     }
+    console.log(errors);
     return (
         <div className="login">
             <h1>Login</h1>

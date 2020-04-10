@@ -1,13 +1,13 @@
 import React from 'react';
-import {GuestContext} from '../../context/Guest/GuestProvider';
+import { connect } from 'react-redux';
+import {addGuest, updateGuest, clearEdit, clearErrorGuest} from '../../redux/actions/GuestActions';
 
-const GuestForm = () => {
-    const {addGuest, editAble, updateGuest, clearEdit, errors, clearErrorGuest, addSuccess} = React.useContext(GuestContext);
+const GuestForm = (props) => {
     React.useEffect(() => {
-        if (editAble !== null) {
-            setGuest(editAble)
+        if (props.editAble !== null) {
+            setGuest(props.editAble)
         } else {
-            if (addSuccess || editAble === null) {
+            if (props.addSuccess || props.editAble === null) {
                 setGuest({
                     name: '',
                     phone: '',
@@ -15,7 +15,7 @@ const GuestForm = () => {
                 });
             }
         }
-    }, [editAble, addSuccess]);
+    }, [props.editAble, props.addSuccess]);
     const [guest, setGuest] = React.useState({
         name: '',
         phone: '',
@@ -30,7 +30,7 @@ const GuestForm = () => {
     }
     const onSubmit =  event => {
         event.preventDefault();
-        if (editAble === null) {
+        if (props.editAble === null) {
             addGuest(guest);
             clearErrorGuest();
         } else {
@@ -38,10 +38,9 @@ const GuestForm = () => {
             clearEdit();
         }
     }
-    console.log(errors);
     return (
         <div className="invite-section">
-            <h1>{editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>
+            <h1>{props.editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Name" name="name" 
                     value={name} onChange={handleChange} />
@@ -66,18 +65,33 @@ const GuestForm = () => {
                     </label>
                 </div>
                 <div className="question">
-                    {errors !== null && 
+                    {props.errors !== null && 
                         <button className="danger">
-                            {errors[0].msg}
-                            <span onClick={() => clearErrorGuest()}>X</span>
+                            {props.errors[0].msg}
+                            <span onClick={() => props.clearErrorGuest()}>X</span>
                         </button>
                     }
                 </div>
-                <input type="submit" value={editAble !== null ? 'Update Guest' : 'Add Guest'} className="btn" />
-                {editAble !== null ? <input onClick={clearEdit} value="Cancel" type="button" className="btn clear" /> : null}
+                <input type="submit" value={props.editAble !== null ? 'Update Guest' : 'Add Guest'} className="btn" />
+                {props.editAble !== null ? <input onClick={props.clearEdit} value="Cancel" type="button" className="btn clear" /> : null}
             </form>
         </div>
     )
 }
 
-export default GuestForm
+const mapStateToProps = state => {
+    return {
+        editAble: state.guest.editAble,
+        addSuccess: state.guest.addSuccess,
+        errors: state.guest.errors
+    }
+}
+
+const mapActionsToProps = {
+    addGuest, 
+    updateGuest, 
+    clearEdit, 
+    clearErrorGuest
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(GuestForm);
