@@ -6,9 +6,9 @@ const GuestSearch = (props) => {
 	const searchValue = React.useRef('');
 	const handleChange = event => {
 		if (searchValue.current.value !== '') {
-			searchGuest(event.target.value);
+			props.searchGuest(event.target.value);
 		} else {
-			clearSearch();
+			props.clearSearch();
 		}
 	}
   	return (

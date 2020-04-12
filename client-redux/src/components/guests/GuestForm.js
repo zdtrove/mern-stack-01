@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {addGuest, updateGuest, clearEdit, clearErrorGuest} from '../../redux/actions/GuestActions';
+import {addGuest, updateGuest, clearUpdateGuest, clearErrorGuest, setErrorGuest} from '../../redux/actions/GuestActions';
 
 const GuestForm = (props) => {
     React.useEffect(() => {
         if (props.editAble !== null) {
-            setGuest(props.editAble)
+            setGuest(props.editAble);
         } else {
             if (props.addSuccess || props.editAble === null) {
                 setGuest({
@@ -30,12 +30,22 @@ const GuestForm = (props) => {
     }
     const onSubmit =  event => {
         event.preventDefault();
-        if (props.editAble === null) {
-            addGuest(guest);
-            clearErrorGuest();
+        let errors = [];
+        for (const property in guest) {
+            if (guest[property] === '') {
+                errors.push({msg: `Please provide ${property}`});
+            }
+        }
+        if (errors.length > 0) {
+            props.setErrorGuest({errors: errors});
         } else {
-            updateGuest(guest);
-            clearEdit();
+            if (props.editAble === null) {
+                props.addGuest(guest);
+                props.clearErrorGuest();
+            } else {
+                props.updateGuest(guest);
+                props.clearUpdateGuest();
+            }
         }
     }
     return (
@@ -67,13 +77,13 @@ const GuestForm = (props) => {
                 <div className="question">
                     {props.errors !== null && 
                         <button className="danger">
-                            {props.errors[0].msg}
+                            {props.errors.msg ? props.errors.msg : props.errors[0].msg}
                             <span onClick={() => props.clearErrorGuest()}>X</span>
                         </button>
                     }
                 </div>
                 <input type="submit" value={props.editAble !== null ? 'Update Guest' : 'Add Guest'} className="btn" />
-                {props.editAble !== null ? <input onClick={props.clearEdit} value="Cancel" type="button" className="btn clear" /> : null}
+                {props.editAble !== null ? <input onClick={props.clearUpdateGuest} value="Cancel" type="button" className="btn clear" /> : null}
             </form>
         </div>
     )
@@ -90,8 +100,9 @@ const mapStateToProps = state => {
 const mapActionsToProps = {
     addGuest, 
     updateGuest, 
-    clearEdit, 
-    clearErrorGuest
+    setErrorGuest,
+    clearErrorGuest,
+    clearUpdateGuest
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(GuestForm);

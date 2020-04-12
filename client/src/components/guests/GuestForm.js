@@ -5,7 +5,7 @@ const GuestForm = () => {
     const {addGuest, editAble, updateGuest, clearEdit, errors, clearErrorGuest, addSuccess} = React.useContext(GuestContext);
     React.useEffect(() => {
         if (editAble !== null) {
-            setGuest(editAble)
+            setGuest(editAble);
         } else {
             if (addSuccess || editAble === null) {
                 setGuest({
@@ -38,7 +38,6 @@ const GuestForm = () => {
             clearEdit();
         }
     }
-    console.log(errors);
     return (
         <div className="invite-section">
             <h1>{editAble !== null ? 'Edit Guest' : 'Invite Someone'}</h1>

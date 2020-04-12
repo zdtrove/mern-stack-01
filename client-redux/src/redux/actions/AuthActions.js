@@ -5,12 +5,29 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
+    LOAD_USER,
+    AUTH_ERROR
 } from '../types';
 import axios from 'axios';
 
 const config = {
     headers: {
         'Content-Type': 'application/json'
+    }
+}
+
+export const loadUser = () => async dispatch => {
+    try {
+        const res = await axios.get('/auth');
+        dispatch({
+            type: LOAD_USER,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch({
+            type: AUTH_ERROR,
+            payload: err.response.data.errors
+        });
     }
 }
 

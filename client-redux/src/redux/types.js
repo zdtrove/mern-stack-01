@@ -5,11 +5,11 @@ export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const ADD_GUEST = 'ADD_GUEST';
 export const REMOVE_GUEST = 'REMOVE_GUEST';
 export const UPDATE_GUEST = 'UPDATE_GUEST';
-export const EDIT_GUEST = 'EDIT_GUEST';
-export const CLEAR_EDIT = 'CLEAR_EDIT';
+export const LOAD_GUEST_FOR_UPDATE = 'LOAD_GUEST_FOR_UPDATE';
+export const CLEAR_UPDATE_GUEST = 'CLEAR_UPDATE_GUEST';
 export const GET_GUESTS = 'GET_GUESTS';
 export const GUESTS_ERROR = 'GUESTS_ERROR';
-export const CLEAR_GUESTS = 'CLEAR_GUESTS';
+export const SET_ERROR_GUEST = 'SET_ERROR_GUEST';
 export const CLEAR_ERROR_GUEST = 'CLEAR_ERROR_GUEST';
 // Auth
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';

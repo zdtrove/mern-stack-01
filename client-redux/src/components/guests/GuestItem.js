@@ -1,17 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {removeGuest, updateGuest, editGuest, clearEdit} from '../../redux/actions/GuestActions';
+import {removeGuest, updateGuest, loadGuestForUpdate, clearUpdateGuest} from '../../redux/actions/GuestActions';
 
-const Guest = ({guest}) => {
-    const {_id, name, dietary, phone, isconfirmed} = guest;
+const Guest = props => {
+    const {_id, name, dietary, phone, isconfirmed} = props.guest;
 
     const handleRemove = () => {
-        removeGuest(_id);
-        clearEdit();
+        props.removeGuest(_id);
     }
 
     const handleIsconfirmed = () => {
-        updateGuest({...guest, isconfirmed: !isconfirmed});
+        props.updateGuest({...props.guest, isconfirmed: !isconfirmed});
     }
 
     return (
@@ -26,7 +25,7 @@ const Guest = ({guest}) => {
                 </div>
                 <div>
                     <button title="Edit Guest">
-                        <i className="fas fa-user-edit" onClick={() => editGuest(guest)}></i>
+                        <i className="fas fa-user-edit" onClick={() => props.loadGuestForUpdate(props.guest)}></i>
                     </button>
                     <button onClick={handleRemove}>
                         <i className="fas fa-trash-alt remove"></i>
@@ -48,8 +47,8 @@ const Guest = ({guest}) => {
 const mapActionsToProps = {
     removeGuest, 
     updateGuest, 
-    editGuest, 
-    clearEdit
+    loadGuestForUpdate, 
+    clearUpdateGuest
 }
 
 export default connect(null, mapActionsToProps)(Guest);

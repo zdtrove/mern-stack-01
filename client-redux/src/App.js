@@ -9,10 +9,14 @@ import {Provider} from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
 import PrivateRoute from './components/routes/PrivateRoute';
+import axios from 'axios';
 
 const token = localStorage.token;
 if (token) {
     store.dispatch({type: SET_AUTHENTICATED});
+    axios.defaults.headers.common['auth-token'] = token;
+} else {
+    delete axios.defaults.headers.common['auth-token'];
 }
 
 function App() {
