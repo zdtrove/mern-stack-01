@@ -11,7 +11,6 @@ const auth = (req, res, next) => {
 		req.user = decoded.user;
 		next();
 	} catch (err) {
-		console.log(err.message);
 		res.status(401).json({errors: {msg: err.message}});
 	}
 }

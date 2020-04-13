@@ -13,8 +13,7 @@ router.get('/', auth, async (req, res) => {
 		const user = await User.findById(req.user.id).select("-password");
 		res.json(user);
 	} catch (err) {
-		console.error(err.message);
-		res.status(500).send('Server Error');
+		res.status(500).json({errors: {msg: 'Server Error'}});
 	}
 });
 
@@ -28,7 +27,7 @@ router.post('/',
 		const result = validationResult(req);
 		if (!result.isEmpty()) {
 			let errArr = [];
-			result.errors.forEach(err => errArr.push(new Object({msg: err.msg})));
+			result.errors.forEach(err => errArr.push({msg: err.msg}));
 			return res.status(400).json({errors: errArr});
 		}
 		const {email, password} = req.body;
@@ -51,12 +50,10 @@ router.post('/',
 				expiresIn: 3600
 			}, (err, token) => {
 				if (err) throw err;
-				res.send({token});
+				res.json({token});
 			});
 		} catch (err) {
-			console.log(err.message);
-			console.error(err.message);
-			res.status(500).send('Server Error');
+			res.status(500).json({errors: {msg: 'Server Error'}});
 		}
 	}
 );

@@ -6,11 +6,10 @@ const Guest = require('../models/Guest');
 
 router.get('/', auth, async (req, res) => {
         try {
-            const guests = await Guest.find({user: req.user.id});
+            const guests = await Guest.find({user: req.user.id}).sort([['createdAt', 'desc']]);
             res.json(guests);
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send('Server Error');
+            res.status(500).json({errors: {msg: 'Server Error'}});
         }
     }
 );
@@ -24,7 +23,7 @@ router.post('/', auth,
         const result = validationResult(req);
         if (!result.isEmpty()) {
             let errArr = [];
-            result.errors.forEach(err => errArr.push(new Object({msg: err.msg})));
+            result.errors.forEach(err => errArr.push({msg: err.msg}));
 			return res.status(400).json({errors: errArr});
         }
         const {name, phone, dietary, isconfirmed} = req.body;
@@ -34,13 +33,13 @@ router.post('/', auth,
                 name,
                 phone,
                 dietary,
-                isconfirmed
+                isconfirmed,
+                createdAt: new Date()
             });
             guest = await guest.save();
             res.json(guest);
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send('Server Error');
+            res.status(500).json({errors: {msg: 'Server Error'}});
         }
     }
 );
@@ -49,13 +48,12 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         let guest = await Guest.findById(req.params.id);
         if (!guest) {
-            return res.status(404).json({msg: 'Guest not found'});
+            return res.status(404).json({errors: {msg: 'Guest not found'}});
         }
         await Guest.findByIdAndRemove(req.params.id);
-        res.send('guest removed');
+        res.json({success: {msg: 'Guest removed'}});
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({errors: {msg: 'Server Error'}});
     }
 });
 
@@ -68,10 +66,9 @@ router.put('/:id', auth, async (req, res) => {
             return res.status(404).json({msg: 'Guest not found'});
         }
         guest = await Guest.findByIdAndUpdate(req.params.id, {$set: updatedGuest}, {new: true});
-        res.send(guest);
+        res.json(guest);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({errors: {msg: 'Server Error'}});
     }
 });
 

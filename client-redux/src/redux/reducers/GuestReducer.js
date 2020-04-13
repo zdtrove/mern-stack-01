@@ -33,7 +33,7 @@ export default function (state = initialState, {type, payload}) {
     		return {
     			...state,
                 addSuccess: true,
-    			guests: [...state.guests, payload]
+    			guests: [payload, ...state.guests]
     		}
         case LOAD_GUEST_FOR_UPDATE:
             return {

@@ -21,6 +21,9 @@ const guestSchema = new mongoose.Schema({
 	isconfirmed: {
 		type: Boolean,
 		default: false
+	},
+	createdAt: {
+		type: Date
 	}
 });
 
