@@ -20,11 +20,9 @@ router.post('/', auth,
         check('phone', 'Please provide phone').not().isEmpty()
     ],
     async (req, res) => {
-        const result = validationResult(req);
-        if (!result.isEmpty()) {
-            let errArr = [];
-            result.errors.forEach(err => errArr.push({msg: err.msg}));
-			return res.status(400).json({errors: errArr});
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+			return res.status(400).json({errors: errors.array()});
         }
         const {name, phone, dietary, isconfirmed} = req.body;
         try {

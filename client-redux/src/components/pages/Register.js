@@ -42,7 +42,7 @@ const Register = (props) => {
                     <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
                     <input type="password" name="password" placeholder="Password" value={password} onChange={handleChange} />
                     <input type="password" name="passwordConfirm" placeholder="Confirm Password" value={passwordConfirm} onChange={handleChange} required />
-                    <input type="submit" value="Sing Up" className="btn" />
+                    <input type="submit" value="Sign Up" className="btn" />
                 </form>
                 <div className="question">
                     {props.errors !== null && 

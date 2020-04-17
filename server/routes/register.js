@@ -14,11 +14,9 @@ router.post('/',
 		check('password', 'Please provide 6 character long password').isLength({min: 6})
 	], 
 	async (req, res) => {
-		const result = validationResult(req);
-		if (!result.isEmpty()) {
-			let errArr = [];
-			result.errors.forEach(err => errArr.push({msg: err.msg}));
-			return res.status(400).json({errors: errArr});
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({errors: errors.array()});
 		}
 		const {name, email, password} = req.body;
 		try {
